@@ -3,6 +3,7 @@ package ru.netology.web.page;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
@@ -19,6 +20,7 @@ public class LoginPage {
     }
 
     public void ifLoginOrPassIsInvalid() {
-        errorPopup.shouldHave(text("Ошибка! Неверно указан логин или пароль"));
+        errorPopup.shouldHave(visible, text("Ошибка! Неверно указан логин или пароль"));
+
     }
 }

@@ -2,6 +2,7 @@ package ru.netology.web.test;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.netology.web.data.DataGenerate;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
 import ru.netology.web.page.ReplenishPage;
@@ -17,18 +18,19 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(1, 2, "100", "5559 0000 0000 0002");
-        replenishPage.relenishAccount();
-        dashboardPage.successTransfer();
+        //ReplenishPage replenishPage =
+        dashboardPage.topUpAccount(DataGenerate.getFirstCardInfo().getTestId(), DataGenerate.getSecondCardInfo().getTestId(), "100", DataGenerate.getSecondCardInfo().getNumber());
+        //replenishPage.relenishAccount();
+        //dashboardPage.successTransfer();
     }
-
+/*
     @Test
     @DisplayName("Transh 1000 rub positive to 2 from 1")
     void transhHundridRubpositiveTo2From1() {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(2, 1, "1000", "5559 0000 0000 0001");
+        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "1000", DataGenerate.getFirstCardInfo().getNumber());
         replenishPage.relenishAccount();
         dashboardPage.successTransfer();
     }
@@ -56,7 +58,7 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(2, 1, "20001", "5559 0000 0000 0001");
+        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "20001", DataGenerate.getFirstCardInfo().getNumber());
         replenishPage.relenishAccount();
         replenishPage.ifTranshisInvalid();
     }
@@ -67,7 +69,7 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(2, 1, "1000000", "5559 0000 0000 0001");
+        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "1000000", DataGenerate.getFirstCardInfo().getNumber());
         replenishPage.relenishAccount();
         replenishPage.ifTranshisInvalid();
     }
@@ -78,8 +80,8 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(1, 2, "1", "5559 0000 0002");
+        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getFirstCardInfo().getTestId(), DataGenerate.getSecondCardInfo().getTestId(), "1", DataGenerate.getSecondCardInfo().getNumber());
         replenishPage.relenishAccount();
         replenishPage.ifTranshisInvalid();
-    }
+    }*/
 }

@@ -23,6 +23,6 @@ public class VerificationPage {
     }
 
     public void ifCodeIsInvalid() {
-        errorPopup.shouldHave(text("Ошибка! Неверно указан код! Попробуйте ещё раз."));
+        errorPopup.shouldHave(visible, text("Ошибка! Неверно указан код! Попробуйте ещё раз."));
     }
 }

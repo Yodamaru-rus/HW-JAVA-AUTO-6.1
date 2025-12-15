@@ -5,9 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Value;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-// Данный класс как пример генерации тестовых данных
-// Вместа передачи данных через сценарий (feature)
-// можно вызывать подобные методы непосредственно в шагах сценария (steps)
 public class DataGenerate {
 
     public static VerificationCode getVerificationCode() {
@@ -16,6 +13,14 @@ public class DataGenerate {
 
     public static AuthInfo getAuthInfo() {
         return new AuthInfo("vasya", "qwerty123");
+    }
+
+    public static CardInfo getFirstCardInfo() {
+        return new CardInfo("5559 0000 0000 0001", 1);
+    }
+
+    public static CardInfo getSecondCardInfo() {
+        return new CardInfo("5559 0000 0000 0002", 2);
     }
 
     @Value
@@ -27,5 +32,11 @@ public class DataGenerate {
     public static class AuthInfo {
         String login;
         String password;
+    }
+
+    @Value
+    public static class CardInfo {
+        String number;
+        int testId;
     }
 }

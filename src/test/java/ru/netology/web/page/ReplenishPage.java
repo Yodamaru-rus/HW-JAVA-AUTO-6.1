@@ -3,6 +3,7 @@ package ru.netology.web.page;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -13,23 +14,21 @@ public class ReplenishPage {
     private final SelenideElement transferButton = $("[data-test-id=action-transfer]");
     private final SelenideElement cancelButton = $("[data-test-id=action-cancel]");
     private final SelenideElement errorPopup = $(".notification__content");
-    String summValue, fromValue;
 
     public ReplenishPage(String summValue, String numberAccFrom) {
-        this.summValue = summValue;
-        this.fromValue = numberAccFrom;
         verifyIsReplenishPage();
+        relenishAccount(summValue, numberAccFrom);
+
     }
 
     public void verifyIsReplenishPage() {
         heading.shouldHave(text("Пополнение карты"));
     }
 
-    public DashboardPage relenishAccount() {
+    public void relenishAccount(String summValue, String fromValue) {
         summ.setValue(summValue);
         from.setValue(fromValue);
         transferButton.click();
-        return new DashboardPage();
     }
 
     public void cancelCashInAccounts() {
@@ -37,6 +36,6 @@ public class ReplenishPage {
     }
 
     public void ifTranshisInvalid() {
-        errorPopup.shouldHave(text("Ошибка! Произошла ошибка"));
+        errorPopup.shouldHave(visible, text("Ошибка! Произошла ошибка"));
     }
 }
