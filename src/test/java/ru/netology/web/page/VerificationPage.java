@@ -16,7 +16,6 @@ public class VerificationPage {
     }
 
     public DashboardPage validVerify(String verifyCodeValue) {
-        verifyIsVerificationPage();
         verifyCode.setValue(verifyCodeValue);
         nextVerifyButton.click();
         return new DashboardPage();

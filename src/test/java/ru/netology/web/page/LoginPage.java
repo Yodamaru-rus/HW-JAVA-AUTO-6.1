@@ -21,6 +21,5 @@ public class LoginPage {
 
     public void ifLoginOrPassIsInvalid() {
         errorPopup.shouldHave(visible, text("Ошибка! Неверно указан логин или пароль"));
-
     }
 }

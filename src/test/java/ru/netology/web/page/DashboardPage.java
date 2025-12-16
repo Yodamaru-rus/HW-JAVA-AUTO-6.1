@@ -3,39 +3,35 @@ package ru.netology.web.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private final SelenideElement heading = $("[data-test-id=dashboard]");
     private final ElementsCollection accountCashs = $$(".list__item DIV");
-    private final ElementsCollection replenishButtons = $$("[data-test-id=action-deposit]");
     private final SelenideElement reloadButton = $("[data-test-id=action-reload]");
 
     public void verifyIsDashboardPage() {
         heading.shouldBe(visible);
     }
 
-    public void topUpAccount(int to, int from, String summValue, String numberAccFrom) {
-        to -= 1;
-        from -= 1;
-        verifyIsDashboardPage();
-        int balanceAccountToBefore = extractBalance(accountCashs.get(to)),
-                balanceAccountFromBefore = extractBalance(accountCashs.get(from));
-        replenishButtons.get(to).click();
-        new ReplenishPage(summValue, numberAccFrom);
-        reloadButton.click();
-        int summValueInt = Integer.parseInt(summValue.trim());
-        accountCashs.get(to).shouldHave(text(" баланс: " + (balanceAccountToBefore + summValueInt) + " р."));
-        accountCashs.get(from).shouldHave(text(" баланс: " + (balanceAccountFromBefore - summValueInt) + " р."));
+    public ReplenishPage replishClick(String testId) {
+        accountCashs.findBy(attribute("data-test-id", testId)).$("Button").click();
+        return new ReplenishPage();
     }
 
-    public int extractBalance(SelenideElement element) {
-        return Integer.parseInt(element.getText()
+    public void reloadClick() {
+        reloadButton.click();
+    }
+
+    public int getBalance(String testId) {
+        return Integer.parseInt(accountCashs.findBy(attribute("data-test-id", testId)).getText()
                 .split("баланс:")[1]
                 .replaceAll("[^0-9]", ""));
     }
 
+    public void checkSumm(String testId, String balance) {
+        accountCashs.findBy(attribute("data-test-id", testId)).shouldHave(text(" баланс: " + balance + " р."));
+    }
 }

@@ -12,27 +12,17 @@ public class ReplenishPage {
     private final SelenideElement summ = $("[data-test-id=amount] input");
     private final SelenideElement from = $("[data-test-id=from] input");
     private final SelenideElement transferButton = $("[data-test-id=action-transfer]");
-    private final SelenideElement cancelButton = $("[data-test-id=action-cancel]");
     private final SelenideElement errorPopup = $(".notification__content");
-
-    public ReplenishPage(String summValue, String numberAccFrom) {
-        verifyIsReplenishPage();
-        relenishAccount(summValue, numberAccFrom);
-
-    }
 
     public void verifyIsReplenishPage() {
         heading.shouldHave(text("Пополнение карты"));
     }
 
-    public void relenishAccount(String summValue, String fromValue) {
-        summ.setValue(summValue);
+    public void relenishAccount(int summValue, String fromValue) {
+        verifyIsReplenishPage();
+        summ.setValue(String.valueOf(summValue));
         from.setValue(fromValue);
         transferButton.click();
-    }
-
-    public void cancelCashInAccounts() {
-        cancelButton.click();
     }
 
     public void ifTranshisInvalid() {

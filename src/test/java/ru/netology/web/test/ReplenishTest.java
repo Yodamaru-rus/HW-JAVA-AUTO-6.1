@@ -8,31 +8,29 @@ import ru.netology.web.page.LoginPage;
 import ru.netology.web.page.ReplenishPage;
 import ru.netology.web.page.VerificationPage;
 
+import java.util.Random;
+
 import static com.codeborne.selenide.Selenide.*;
 
 public class ReplenishTest {
 
     @Test
-    @DisplayName("Transh 100 rub positive")
+    @DisplayName("Transh positive")
     void transhHundridRubpositive() {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        //ReplenishPage replenishPage =
-        dashboardPage.topUpAccount(DataGenerate.getFirstCardInfo().getTestId(), DataGenerate.getSecondCardInfo().getTestId(), "100", DataGenerate.getSecondCardInfo().getNumber());
-        //replenishPage.relenishAccount();
-        //dashboardPage.successTransfer();
-    }
-/*
-    @Test
-    @DisplayName("Transh 1000 rub positive to 2 from 1")
-    void transhHundridRubpositiveTo2From1() {
-        LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
-        VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
-        DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "1000", DataGenerate.getFirstCardInfo().getNumber());
-        replenishPage.relenishAccount();
-        dashboardPage.successTransfer();
+        int balanceBeforeTo = dashboardPage.getBalance(DataGenerate.getFirstCardInfo().getTestId());
+        int balanceBeforeFrom = dashboardPage.getBalance(DataGenerate.getSecondCardInfo().getTestId());
+        ReplenishPage replenishPage = dashboardPage.replishClick(DataGenerate.getFirstCardInfo().getTestId());
+        replenishPage.verifyIsReplenishPage();
+        int summValue = new Random().nextInt(balanceBeforeTo);
+        replenishPage.relenishAccount(summValue, DataGenerate.getSecondCardInfo().getNumber());
+        dashboardPage.reloadClick();
+        String balanceAfterTo = String.valueOf(balanceBeforeTo + summValue);
+        String balanceAfterFrom = String.valueOf(balanceBeforeFrom - summValue);
+        dashboardPage.checkSumm(DataGenerate.getFirstCardInfo().getTestId(), balanceAfterTo);
+        dashboardPage.checkSumm(DataGenerate.getSecondCardInfo().getTestId(), balanceAfterFrom);
     }
 
     @Test
@@ -40,7 +38,7 @@ public class ReplenishTest {
     void verificationFailed() {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
-        DashboardPage dashboardPage = verificationPage.validVerify("1111");
+        verificationPage.validVerify("1111");
         verificationPage.ifCodeIsInvalid();
     }
 
@@ -58,9 +56,18 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "20001", DataGenerate.getFirstCardInfo().getNumber());
-        replenishPage.relenishAccount();
-        replenishPage.ifTranshisInvalid();
+        dashboardPage.verifyIsDashboardPage();
+        int balanceBeforeTo = dashboardPage.getBalance(DataGenerate.getSecondCardInfo().getTestId());
+        int balanceBeforeFrom = dashboardPage.getBalance(DataGenerate.getFirstCardInfo().getTestId());
+        ReplenishPage replenishPage = dashboardPage.replishClick(DataGenerate.getSecondCardInfo().getTestId());
+        replenishPage.verifyIsReplenishPage();
+        int summValue = new Random().nextInt(100) + balanceBeforeTo;
+        replenishPage.relenishAccount(summValue, DataGenerate.getFirstCardInfo().getNumber());
+        dashboardPage.reloadClick();
+        String balanceAfterTo = String.valueOf(balanceBeforeTo + summValue);
+        String balanceAfterFrom = String.valueOf(balanceBeforeFrom - summValue);
+        dashboardPage.checkSumm(DataGenerate.getFirstCardInfo().getTestId(), balanceAfterTo);
+        dashboardPage.checkSumm(DataGenerate.getSecondCardInfo().getTestId(), balanceAfterFrom);
     }
 
     @Test
@@ -69,19 +76,12 @@ public class ReplenishTest {
         LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
         VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
         DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getSecondCardInfo().getTestId(), DataGenerate.getFirstCardInfo().getTestId(), "1000000", DataGenerate.getFirstCardInfo().getNumber());
-        replenishPage.relenishAccount();
+        dashboardPage.verifyIsDashboardPage();
+        int balanceBeforeTo = dashboardPage.getBalance(DataGenerate.getSecondCardInfo().getTestId());
+        ReplenishPage replenishPage = dashboardPage.replishClick(DataGenerate.getSecondCardInfo().getTestId());
+        replenishPage.verifyIsReplenishPage();
+        int summValue = 10_000_000 + balanceBeforeTo;
+        replenishPage.relenishAccount(summValue, DataGenerate.getFirstCardInfo().getNumber());
         replenishPage.ifTranshisInvalid();
     }
-
-    @Test
-    @DisplayName("incorrect account number")
-    void incorrectAccountNumber() {
-        LoginPage loginPage = open("http://localhost:9999", LoginPage.class);
-        VerificationPage verificationPage = loginPage.Loginning("vasya", "qwerty123");
-        DashboardPage dashboardPage = verificationPage.validVerify("12345");
-        ReplenishPage replenishPage = dashboardPage.topUpAccount(DataGenerate.getFirstCardInfo().getTestId(), DataGenerate.getSecondCardInfo().getTestId(), "1", DataGenerate.getSecondCardInfo().getNumber());
-        replenishPage.relenishAccount();
-        replenishPage.ifTranshisInvalid();
-    }*/
 }
