@@ -12,7 +12,7 @@ public class LoginPage {
     private final SelenideElement nextButton = $("[data-test-id=action-login]");
     private final SelenideElement errorPopup = $(".notification__content");
 
-    public VerificationPage Loginning(String loginValue, String passwordValue) {
+    public VerificationPage loginning(String loginValue, String passwordValue) {
         login.setValue(loginValue);
         pass.setValue(passwordValue);
         nextButton.click();

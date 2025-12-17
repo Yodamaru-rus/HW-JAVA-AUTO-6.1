@@ -11,8 +11,16 @@ public class DataGenerate {
         return new VerificationCode("12345");
     }
 
+    public static VerificationCode getVerificationErrorCode() {
+        return new VerificationCode("11221");
+    }
+
     public static AuthInfo getAuthInfo() {
         return new AuthInfo("vasya", "qwerty123");
+    }
+
+    public static AuthInfo getAuthErrorInfo() {
+        return new AuthInfo("vasya", "1111111");
     }
 
     public static CardInfo getFirstCardInfo() {
